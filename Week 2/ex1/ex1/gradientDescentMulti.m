@@ -25,7 +25,7 @@ for iter = 1:num_iters
     % y values
     differencesFromY = hypothesis - y;
     
-    % create a new 1x(n) matrix from the product of the transposed differencesFromY 
+    % create a new (1)x(n+1) matrix from the product of the transposed differencesFromY 
     % matrix ((1)x(m)) and X ((m)x(n+1)) => (1)x(m) * (m)x(n+1) => (1)x(n+1)
     % matrix
     delta = (differencesFromY' * X);
