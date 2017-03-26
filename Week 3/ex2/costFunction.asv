@@ -23,14 +23,16 @@ grad = zeros(size(theta));
 % J{theta) = 1/m * Sum[-y(i)*log(h(theta)(x(i))) - (1 -
 % y(i))*log(1-h(theta)(x(i))
 
-hypothesis = sigmoid(X * theta);
+costHypothesis = sigmoid(X * theta);
 
-pos  = -y' * log(hypothesis);
-neg = (1 - y)' * log(1 - hypothesis);
+costLHS = log(costHypothesis)' * -y ;
+costRHS = log(1 - costHypothesis)' * (1 - y);
 
-J = (pos - neg) / m;
+J = sum(costLHS - costRHS)/ m;
 
-grad = (X' * (hypothesis - y)) / m;
+grad = ;
+
+
 
 % =============================================================
 
