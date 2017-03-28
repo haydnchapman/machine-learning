@@ -17,11 +17,29 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+hypothesis = sigmoid(X * theta);
 
+pos = -y' * log(hypothesis);
+neg = (1 - y)' * log(1 - hypothesis);
 
+% vector containing all parameters except for theta 0
+features = theta(2:end);
 
+% penalty for all features
+costPenalty = (lambda * sum(features .^ 2)) / (2 * m);
 
+% standard cost function + cost penalty previously calculated
+J = ((pos - neg) / m) + costPenalty;
 
+% standard calculation of non regularized gradients
+grad = (X' * (hypothesis - y)) / m;
+
+% create a vector containing the regularized values for each feature, with
+% 0 set for the first row as we don't regularize theta zero
+regularizationVector = [0; lambda * features / m];
+
+% add the standard gradient vector with the regularization vector
+grad = grad + regularizationVector;
 % =============================================================
 
 end
