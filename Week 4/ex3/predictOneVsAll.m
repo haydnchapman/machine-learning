@@ -30,9 +30,17 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+% Get the hypothesis for each logistic regression parameter, returing a
+% 5000x10 matrix containing how closely matching the row is to each theta
+% label theta value 
+hypothesis = X * all_theta';
 
+% Retrieve the index of the closest match for each row in the hypothesis
+[~,index] = max(hypothesis,[],2);
 
-
+% Which in turn returns a 5000 dimension vector containing the label number
+% that each row most closely matches
+p = index;
 
 
 
