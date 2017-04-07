@@ -1,3 +1,4 @@
+
 function [J, grad] = lrCostFunction(theta, X, y, lambda)
 %LRCOSTFUNCTION Compute cost and gradient for logistic regression with 
 %regularization
@@ -36,17 +37,30 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
-
-
-
-
-
-
-
-
-
 % =============================================================
 
-grad = grad(:);
+hypothesis = sigmoid(X * theta);
+
+pos = -y' * log(hypothesis);
+neg = (1 - y)' * log(1 - hypothesis);
+
+% vector containing all parameters except for theta zero
+parameters = theta(2:end);
+
+% penalty for all parameters
+costPenalty = (lambda * sum(parameters .^ 2)) / (2 * m);
+
+% standard cost function + cost penalty previously calculated
+J = ((pos - neg) / m) + costPenalty;
+
+% standard calculation of non regularized gradients
+grad = (X' * (hypothesis - y)) / m;
+
+% create a vector containing the regularized values for each parameter, with
+% 0 set for the first row as we don't regularize theta zero
+regularizationVector = [0; lambda * parameters / m];
+
+% add the standard gradient vector with the regularization vector
+grad = grad + regularizationVector;
 
 end
