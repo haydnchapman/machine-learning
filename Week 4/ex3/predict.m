@@ -21,13 +21,26 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% [(m)] vector containing the +1 bias values for each input row
+bias = ones(size(X,1),1);
 
+% form an [(m) x (n+1)] matrix containing all inputs and their bias
+a1 = [bias,X];
 
+z2 = a1 * Theta1';
+% add bias parameter to each row and apply sigmoid function to z2 matrix,
+a2 = [bias,sigmoid(z2)];
 
+z3 = a2 * Theta2';
+% apply sigmoid function to z3 matrix
+a3 = sigmoid(z3);
 
+% retrieve index of max value within a3 matrix
+[~,index] = max(a3,[],2);
 
-
-
+% Which in turn returns an [m] dimension vector representing the label 
+% number that each row most closely matches
+p = index;
 
 % =========================================================================
 
