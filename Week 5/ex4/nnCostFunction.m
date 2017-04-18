@@ -63,23 +63,33 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+identityMatrix = eye(num_labels);
+yMatrix = identityMatrix(y,:);
 
 
+% Part 1.1 - Feedforward
 
+bias = ones(size(X,1),1);
 
+% form an [(m) x (n+1)] matrix containing all inputs and their bias
+a1 = [bias,X];
 
+z2 = a1 * Theta1';
+% add bias parameter to each row and apply sigmoid function to z2 matrix,
+a2 = [bias,sigmoid(z2)];
 
+z3 = a2 * Theta2';
+% apply sigmoid function to z3 matrix
+a3 = sigmoid(z3);
 
+LHS = -yMatrix .* log(a3);
+RHS = (1 - yMatrix) .* log(1 - a3);
 
+unregularizedCost = (1/m) * sum(sum(LHS) - sum(RHS));
 
+regularizationCost = (lambda/(2*m)) * (sum(sum(Theta1(:,2:end) .^ 2)) + sum(sum(Theta2(:,2:end) .^ 2)));
 
-
-
-
-
-
-
-
+J = unregularizedCost + regularizationCost;
 % -------------------------------------------------------------
 
 % =========================================================================
