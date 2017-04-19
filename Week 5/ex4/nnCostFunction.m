@@ -63,8 +63,8 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
-identityMatrix = eye(num_labels);
-yMatrix = identityMatrix(y,:);
+identityLabelMatrix = eye(num_labels);
+yMatrix = identityLabelMatrix(y,:);
 
 % Part 1.1 - Feedforward
 bias = ones(size(X,1),1);
@@ -80,8 +80,11 @@ a3 = sigmoid(z3);
 costFunctionLHS = sum(-yMatrix .* log(a3));
 costFunctionRHS = sum((1 - yMatrix) .* log(1 - a3));
 
-layerOneRegularization = sum(Theta1(:,2:end) .^ 2);
-layerTwoRegularization = sum(Theta2(:,2:end) .^ 2);
+theta1Unbiased = Theta1(:,2:end);
+theta2Unbiased = Theta2(:,2:end);
+
+layerOneRegularization = sum(theta1Unbiased .^ 2);
+layerTwoRegularization = sum(theta2Unbiased .^ 2);
 totalRegularization = sum(layerOneRegularization) + sum(layerTwoRegularization);
 
 unregularizedCostFunction = (1 / m) * sum(costFunctionLHS - costFunctionRHS);
@@ -90,6 +93,21 @@ regularizationCost = (lambda / (2 * m)) * totalRegularization;
 J = unregularizedCostFunction + regularizationCost;
 
 % Part 2.1 - Backpropogation
+delta_3 = a3 - yMatrix;
+delta_2 = (delta_3 * Theta2) .* [ones(size(z2,1),1) sigmoidGradient(z2)];
+delta_2 = delta_2(:,2:end);
+
+D1 = delta_2' * a1;
+D2 = delta_3' * a2;
+
+theta1ZeroBias = [ zeros(size(Theta1, 1), 1) theta1Unbiased ];
+theta2ZeroBias = [ zeros(size(Theta2, 1), 1) theta2Unbiased ];
+
+theta1RegularizationCost = (lambda / m) * theta1ZeroBias;
+theta2RegularizationCost = (lambda / m) * theta2ZeroBias;
+
+Theta1_grad = Theta1_grad + (1/m) * D1 + theta1RegularizationCost;
+Theta2_grad = Theta2_grad + (1/m) * D2 + theta2RegularizationCost;
 
 % -------------------------------------------------------------
 
