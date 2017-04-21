@@ -19,19 +19,29 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 
+hypothesis = X * theta;
 
+differenceFromY = hypothesis - y;
 
+parameters = (theta(2:end));
 
+unregularizedCost = (1 / (2 * m)) * sum(differenceFromY .^ 2);
 
+regularizationCost = (lambda / (2 * m)) * sum(parameters .^ 2);
 
+J = unregularizedCost + regularizationCost;
 
+% standard calculation of non regularized gradients
+grad = (X' * differenceFromY) / m;
 
+% create a vector containing the regularized values for each parameter, with
+% 0 set for the first row as we don't regularize theta zero
+regularizationVector = [0; lambda * parameters / m];
 
-
-
+% add the standard gradient vector with the regularization vector
+grad = grad + regularizationVector;
 
 % =========================================================================
-
 grad = grad(:);
 
 end
