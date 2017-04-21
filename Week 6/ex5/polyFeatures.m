@@ -15,10 +15,9 @@ X_poly = zeros(numel(X), p);
 %
 % 
 
-
-
-
-
+% Raise X ((m)x(1)) to the power from 1 to p ((1)x(p)) creating (m)x(p)
+% matrix
+X_poly = X .^ (1 : p);
 
 % =========================================================================
 
