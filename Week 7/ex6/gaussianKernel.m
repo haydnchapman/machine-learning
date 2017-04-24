@@ -16,9 +16,10 @@ sim = 0;
 %
 %
 
+distanceSquared = (x1 - x2) .^ 2;
+rateOfSimilarityDropOff = 2 * (sigma^2);
 
-
-
+sim = exp(-sum(distanceSquared) / rateOfSimilarityDropOff);
 
 
 % =============================================================
