@@ -28,8 +28,7 @@ parameterSet = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
 parameterCount = length(parameterSet);
 
 predictionErrorSet = zeros(parameterCount);
-x1 = X(1:end,1);
-x2 = X(1:end,2);
+
 for i=1:parameterCount
     C = parameterSet(i);
     for j=1:parameterCount
