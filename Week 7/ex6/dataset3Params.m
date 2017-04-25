@@ -24,10 +24,29 @@ sigma = 0.3;
 %
 
 
+parameterSet = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+parameterCount = length(parameterSet);
 
+predictionErrorSet = zeros(parameterCount);
+x1 = X(1:end,1);
+x2 = X(1:end,2);
+for i=1:parameterCount
+    C = parameterSet(i);
+    for j=1:parameterCount
+        sigma = parameterSet(j);
+        model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma));
+        
+        predictions = svmPredict(model, Xval);
+        predictionError = mean(double(predictions ~= yval));
+        predictionErrorSet(i,j) = predictionError;
+    end
+end
 
+minPredictionError = min(predictionErrorSet(:));
+[cIndex, sigmaIndex] = find(predictionErrorSet == minPredictionError);
 
-
+C = parameterSet(cIndex);
+sigma = parameterSet(sigmaIndex);
 
 % =========================================================================
 
