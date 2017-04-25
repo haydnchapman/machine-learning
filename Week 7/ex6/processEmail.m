@@ -1,3 +1,4 @@
+
 function word_indices = processEmail(email_contents)
 %PROCESSEMAIL preprocesses a the body of an email and
 %returns a list of word_indices 
@@ -98,12 +99,9 @@ while ~isempty(email_contents)
     %
 
 
-
-
-
-
-
-
+    index = find(strcmp(vocabList,str));
+    
+    word_indices = [word_indices ; index];
 
 
     % =============================================================
