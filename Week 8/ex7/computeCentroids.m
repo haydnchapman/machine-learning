@@ -25,6 +25,17 @@ centroids = zeros(K, n);
 %
 % Note: You can use a for-loop over the centroids to compute this.
 %
+for k = 1:K
+    %create matrix containing data points for 'k' and [0 0] for non 'k'
+    %points
+    data_points_for_centroid = (idx == k) .* X;
+    
+    %remove all [0 0] rows from matrix
+    data_points_for_centroid(~any(data_points_for_centroid,2),:) = [];
+    
+    %assign mean of all data points to centroid
+    centroids(k,:) = mean(data_points_for_centroid);
+end
 
 
 
