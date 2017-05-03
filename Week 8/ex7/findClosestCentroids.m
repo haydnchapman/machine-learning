@@ -21,11 +21,17 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+m = size(X,1);
 
-
-
-
-
+for i=1:m
+    x_i = X(i,:);
+    distance_from_centroids_sq = (x_i - centroids) .^ 2;
+    euclidean_distance_sq = sum(distance_from_centroids_sq,2);
+    euclidean_distance = sqrt(euclidean_distance_sq);
+    [~, k_index] = min(euclidean_distance);
+    
+    idx(i) = k_index;   
+end
 
 % =============================================================
 
