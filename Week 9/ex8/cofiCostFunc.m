@@ -40,21 +40,16 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+h = X * Theta';
+rated_h = h .* R;
 
+difference = (rated_h - Y);
+squared_difference = difference .^ 2;
 
+J = (1/2) * sum(sum(squared_difference));
 
-
-
-
-
-
-
-
-
-
-
-
-
+X_grad = difference * Theta;
+Theta_grad = difference' * X;
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
