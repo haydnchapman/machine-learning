@@ -46,10 +46,19 @@ rated_h = h .* R;
 difference = (rated_h - Y);
 squared_difference = difference .^ 2;
 
-J = (1/2) * sum(sum(squared_difference));
+squared_difference_summed = sum(sum(squared_difference));
 
-X_grad = difference * Theta;
-Theta_grad = difference' * X;
+regularized_cost_theta = (lambda / 2) * sum(sum(Theta .^ 2));
+regularized_cost_X = (lambda / 2) * sum(sum(X .^ 2));
+
+regularized_grad_X = lambda * X;
+regularized_grad_theta = lambda * Theta';
+
+J = ((1/2) * squared_difference_summed) + regularized_cost_theta + regularized_cost_X;
+
+X_grad = (difference * Theta) + regularized_grad_X;
+Theta_grad = (difference' * X) + regularized_grad_theta';
+
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
